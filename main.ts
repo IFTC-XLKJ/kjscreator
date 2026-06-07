@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import Logger from "./logger.ts";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -21,6 +21,13 @@ function createMainWindow() {
     mainWindow.removeMenu();
     mainWindow.webContents.openDevTools();
     mainWindow.loadFile("index.html");
+    ipcMain.handle("choose-directory", async (event, options) => {
+        const result = await dialog.showOpenDialog({
+            properties: ["openDirectory"],
+            title: options.title || "请选择目录",
+        });
+        return result.filePaths[0];
+    });
     return mainWindow;
 }
 
