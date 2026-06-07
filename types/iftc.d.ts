@@ -20,6 +20,13 @@ interface IftcFileInstance {
     readText(): Promise<string>;
 
     /**
+     * 写入文件内容
+     * @param data - 要写入的数据，可以是 Blob 或字符串
+     * @returns 写入成功返回 true，失败返回 false
+     */
+    write(data: Blob | string): Promise<boolean>;
+
+    /**
      * 检查文件是否存在
      */
     exists(): Promise<boolean>;
@@ -69,6 +76,18 @@ declare global {
          * @returns 文件操作实例
          */
         File(filepath?: string): IftcFileInstance;
+
+        /**
+         * 生成 UUID v4
+         * @returns UUID 字符串
+         */
+        uuidv4(): string;
+
+        /**
+         * 创建新的编辑器窗口
+         * @returns IPC 调用结果
+         */
+        newEditorWindow(): Promise<any>;
     };
 }
 
