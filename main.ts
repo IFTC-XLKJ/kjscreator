@@ -2,11 +2,16 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import Logger from "./logger.ts";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs/promises";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const __filename = fileURLToPath(import.meta.url);
 
 Logger.new();
+if (!fs.stat("projects.json").then(() => true).catch(() => false)) {
+    Logger.info("projects.json not found, creating a new one");
+    await fs.writeFile("projects.json", JSON.stringify([], null, 2));
+}
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 960,
