@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KubeJS Creator</title>
+    <link rel="stylesheet" href="styles/editor.css">
     <script src="scripts/sober.min.js"></script>
     <script src="scripts/blockly/blockly.min.js"></script>
     <script src="scripts/blockly/blockly_compressed.js"></script>
@@ -15,6 +16,10 @@
 </head>
 
 <body>
+    <s-appbar>
+        <!--标题-->
+        <div slot="headline"> KubeJS Creator </div>
+    </s-appbar>
     <div id="blocklyDiv" style="height: 100vh; width: 100vw;"></div>
     <script src="scripts/editor.js"></script>
 </body>
