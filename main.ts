@@ -31,6 +31,22 @@ function createMainWindow() {
     return mainWindow;
 }
 
+function createEditorWindow() {
+    const editorWindow = new BrowserWindow({
+        width: 960,
+        height: 540,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: true,
+            preload: `${__dirname}/preload.ts`,
+        },
+        resizable: false,
+    });
+    editorWindow.removeMenu();
+    editorWindow.webContents.openDevTools();
+    editorWindow.loadFile("editor.html");
+}
+
 let mainWindow: BrowserWindow | null = null;
 
 app.whenReady().then(() => {
