@@ -5,10 +5,12 @@ TemplateHTML.baseUrl = "file://" + iftc.__dirname + "/templates/";
 
 async function main() {
     await TemplateHTML.getTemplate("choose_kubejs_dir");
+    await TemplateHTML.getTemplate("kubejs_project_item");
     Logger.info("App initialized");
 
     add_project.addEventListener("click", () => {
         const choose_kubejs_dir = TemplateHTML.templates.choose_kubejs_dir;
+        const dialog = Dialog.builder({ headline: '添加项目', view: choose_kubejs_dir });
         const target_kubejs_dir = choose_kubejs_dir.querySelector("#target_kubejs_dir");
         target_kubejs_dir.addEventListener("click", async () => {
             const result = await iftc.chooseDirectory({ title: "请选择KubeJS目录" });
@@ -37,14 +39,37 @@ async function main() {
                 return;
             }
             if (await checkIsKubeJSDir(dir)) {
-                Logger.info("添加项目成功");
+                try {
+                    const projectsFile = iftc.File("projects.json");
+                    const projects = JSON.parse(await projectsFile.readText());
+                    projects.push({
+                        name: kubejs_project_name.value,
+                        path: dir,
+                        uuid: iftc.uuidv4()
+                    });
+                    await projectsFile.write(JSON.stringify(projects, null, 2));
+                    Logger.info("添加项目成功");
+                    Snackbar.builder({ type: "success", text: "添加项目成功" });
+                    dialog.showed = false;
+                    setTimeout(() => {
+                        dialog.remove();
+                    }, 1000);
+                    const projects = await getProjectList();
+                    renderProjectList(projects);
+                } catch (error) {
+                    Logger.error("Error writing projects.json: " + error);
+                    Snackbar.builder({ type: "error", text: "添加项目失败" });
+                    return;
+                }
             } else {
                 Logger.warn("添加项目失败");
                 Snackbar.builder({ type: "error", text: "选择的目录不是KubeJS目录" });
             }
         });
-        const dialog = Dialog.builder({ headline: '添加项目', view: choose_kubejs_dir });
     });
+
+    const projects = await getProjectList();
+    renderProjectList(projects);
 
     async function checkIsKubeJSDir(path) {
         const dir = iftc.File(path);
@@ -88,5 +113,7 @@ async function main() {
             return [];
         }
     }
+
+    async function renderProjectList(list) { }
 }
 main();

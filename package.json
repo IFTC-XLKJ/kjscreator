@@ -15,7 +15,9 @@
     "build": "electron-builder"
   },
   "dependencies": {
+    "@types/uuid": "^10.0.0",
     "electron": "^42.3.3",
-    "electron-builder": "^26.15.0"
+    "electron-builder": "^26.15.0",
+    "uuid": "^14.0.0"
   }
 }

@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { readFile, writeFile, stat } from "fs/promises";
 // import * as fs from "fs";
 import os from "os";
+import { v4 as uuidv4 } from "uuid";
 
 interface ChooseDirectoryOptions {
     title?: string;
@@ -83,6 +84,7 @@ contextBridge.exposeInMainWorld("iftc", {
         };
         return obj;
     },
+    uuidv4: () => uuidv4(),
     newEditorWindow: () => {
         return ipcRenderer.invoke("new-editor-window");
     },
