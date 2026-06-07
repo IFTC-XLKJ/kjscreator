@@ -3,7 +3,7 @@ import Logger from "./logger.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 // 修复点：删除错误的 import { fs } from "fs/promises";
-import { readFile, writeFile } from "fs/promises";
+import { readFile, writeFile, stat } from "fs/promises";
 // import * as fs from "fs";
 import os from "os";
 
@@ -46,7 +46,21 @@ contextBridge.exposeInMainWorld("iftc", {
                 const result = await readFile(obj.path);
                 Logger.info("readFile done");
                 Logger.info("readFile result: " + result.byteLength + " bytes");
-                return await (new Blob([result])).text();
+                return await new Blob([result]).text();
+            },
+            exists: async () => {
+                Logger.info("start checkFileExists");
+                let result: boolean;
+                try {
+                    await stat(obj.path);
+                    result = true;
+                } catch (e) {
+                    Logger.info("stat error: " + e);
+                    result = false;
+                }
+                Logger.info("checkFileExists done");
+                Logger.info("checkFileExists result: " + result);
+                return result;
             },
         };
         return obj;
