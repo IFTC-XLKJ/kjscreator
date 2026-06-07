@@ -17,5 +17,8 @@ class Logger {
         console.warn(`[WARN ${new Date().toISOString()}] ${message}`);
         fs.appendFile("app.log", `[WARN ${new Date().toISOString()}] ${message}\n`);
     }
+    public static clear(): void {
+        fs.writeFile("app.log", "");
+    }
 }
 export default Logger;
