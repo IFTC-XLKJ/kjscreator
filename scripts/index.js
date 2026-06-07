@@ -118,6 +118,21 @@ async function main() {
         }
     }
 
-    async function renderProjectList(list) { }
+    async function renderProjectList(list) {
+        const kubejs_project_item = TemplateHTML.templates.kubejs_project_item;
+        for (const project of list) {
+            const item = kubejs_project_item.cloneNode(true);
+            item.querySelector(".project_name").textContent = project.name;
+            item.querySelector(".project_path").textContent = project.path;
+            item.querySelector(".project_uuid").textContent = project.uuid;
+            // item.querySelector(".project_delete").addEventListener("click", async () => {
+            //     const projectsFile = iftc.File("projects.json");
+            // })
+            item.addEventListener("click", () => {
+                iftc.newEditorWindow(project);
+            });
+            projects_list.appendChild(item);
+        }
+    }
 }
 main();

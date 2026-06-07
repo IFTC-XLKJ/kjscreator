@@ -19,3 +19,26 @@ body {
 s-dialog {
     position: absolute;
 }
+
+/* 修改 #projects_list */
+#projects_list {
+    display: grid;
+    /* 自动填充列，每列最小 250px，最大占满剩余空间 (1fr) */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px; /* 卡片之间的间距 */
+    padding: 20px;
+    
+    /* 关键：限制最大宽度并居中容器本身 */
+    max-width: 1200px; 
+    margin: 0 auto; 
+    width: 100%;
+    box-sizing: border-box; /* 确保 padding 不会撑大宽度导致溢出 */
+}
+
+/* 修改 .project-card */
+.project-card {
+    /* 不需要设置固定宽度，grid 会自动处理 */
+    /* 如果需要卡片内部内容居中或特定样式，可以在这里加 */
+    width: 100%;
+    padding: 8px;
+}

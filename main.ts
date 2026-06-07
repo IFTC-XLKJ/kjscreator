@@ -7,6 +7,12 @@ import fs from "fs/promises";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const __filename = fileURLToPath(import.meta.url);
 
+interface Project {
+    name: string;
+    path: string;
+    uuid: string;
+}
+
 Logger.new();
 if (
     !fs
@@ -39,28 +45,32 @@ function createMainWindow() {
         });
         return result.filePaths[0];
     });
-    ipcMain.handle("new-editor-window", () => {
-        const editorWindow = createEditorWindow();
+    ipcMain.handle("new-editor-window", (event, project: Project) => {
+        const editorWindow = createEditorWindow(project);
         editorWindows[String(editorWindow.id)] = editorWindow;
         return editorWindow.id;
     });
     return mainWindow;
 }
 
-function createEditorWindow() {
+function createEditorWindow(project: Project) {
     const editorWindow = new BrowserWindow({
-        width: 960,
-        height: 540,
+        width: 1920,
+        height: 1080,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: true,
             preload: `${__dirname}/preload.ts`,
         },
-        resizable: false,
     });
     editorWindow.removeMenu();
     editorWindow.webContents.openDevTools();
-    editorWindow.loadFile("editor.html");
+    const filePath = path.join(__dirname, "editor.html");
+    const fileUrl = new URL(`file://${filePath.replace(/\\/g, "/")}`);
+    fileUrl.searchParams.append("uuid", project.uuid);
+    fileUrl.searchParams.append("name", project.name);
+    fileUrl.searchParams.append("path", project.path);
+    editorWindow.loadURL(fileUrl.toString());
     return editorWindow;
 }
 

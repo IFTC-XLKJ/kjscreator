@@ -87,7 +87,7 @@ declare global {
          * 创建新的编辑器窗口
          * @returns IPC 调用结果
          */
-        newEditorWindow(): Promise<any>;
+        newEditorWindow(project: Object): Promise<number>;
     };
 }
 

@@ -85,7 +85,7 @@ contextBridge.exposeInMainWorld("iftc", {
         return obj;
     },
     uuidv4: () => uuidv4(),
-    newEditorWindow: () => {
-        return ipcRenderer.invoke("new-editor-window");
+    newEditorWindow: (project: Object): Promise<number> => {
+        return ipcRenderer.invoke("new-editor-window", project);
     },
 });
