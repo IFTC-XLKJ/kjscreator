@@ -15,12 +15,41 @@ async function main() {
             Logger.info("chooseDirectory result: " + result);
             target_kubejs_dir.textContent = result || "未选择";
             choose_kubejs_dir.dataset.directory = result || "";
+            if (!result) return target_kubejs_dir.style.color = "black";
+            if (await checkIsKubeJSDir(result)) {
+                target_kubejs_dir.style.color = "green";
+            } else {
+                target_kubejs_dir.style.color = "red";
+            }
         });
         const dialog = Dialog.builder({ headline: '添加项目', view: choose_kubejs_dir });
     });
 
-    function checkIsKubeJSDir(path) {
+    async function checkIsKubeJSDir(path) {
         const dir = iftc.File(path);
+        const kubejsDirs = [
+            'assets',
+            'client_scripts',
+            'config',
+            'data',
+            'server_scripts',
+            'startup_scripts'
+        ];
+        for (const subdir of kubejsDirs) {
+            const subDirPath = path + '/' + subdir;
+            const subDir = iftc.File(subDirPath);
+            try {
+                const exists = await subDir.exists();
+                console.log(`Checking directory ${subDirPath}: ${exists}`);
+                if (!exists) {
+                    return false;
+                }
+            } catch (error) {
+                Logger.error(`Error checking directory ${subDirPath}: ${error}`);
+                return false;
+            }
+        }
+        return true;
     }
 }
 main();
