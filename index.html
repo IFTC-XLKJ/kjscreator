@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KubeJS编辑器 v0.0.1</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="scripts/sober.min.js"></script>
+    <script src="scripts/template-html.min.js"></script>
+</head>
+
+<body>
+    <s-drawer id="drawer">
+        <div slot="start"></div>
+        <s-appbar>
+            <s-icon-button slot="navigation" onclick="document.querySelector('#drawer').toggle()">
+                <s-icon name="menu"></s-icon>
+            </s-icon-button>
+            <div slot="headline"> KubeJS编辑器 </div>
+        </s-appbar>
+        <s-scroll-view id="screens">
+            <s-page class="screen">
+                <s-fab id="add_project">
+                    <s-icon name="add"></s-icon>
+                </s-fab>
+            </s-page>
+        </s-scroll-view>
+    </s-drawer>
+    <script src="scripts/index.js"></script>
+</body>
+
+</html>

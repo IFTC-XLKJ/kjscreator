@@ -1,0 +1,21 @@
+{
+  "name": "kjscreator",
+  "version": "0.0.1",
+  "description": "KubeJS编辑器",
+  "keywords": [
+    "KubeJS"
+  ],
+  "license": "MIT",
+  "author": "IFTC",
+  "type": "module",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"这是一个KubeJS编辑器\"",
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "electron": "^42.3.3",
+    "electron-builder": "^26.15.0"
+  }
+}
