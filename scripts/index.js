@@ -59,7 +59,6 @@ async function main() {
                     setTimeout(() => {
                         dialog.remove();
                     }, 1000);
-                    // const projects = await getProjectList();
                     renderProjectList(projects);
                 } catch (error) {
                     Logger.error("Error writing projects.json: " + error);
