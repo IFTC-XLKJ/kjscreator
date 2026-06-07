@@ -1,6 +1,6 @@
 const { Logger } = iftc;
 const sober = globalThis.sober;
-const { Dialog } = sober;
+const { Dialog, Snackbar } = sober;
 TemplateHTML.baseUrl = "file://" + iftc.__dirname + "/templates/";
 
 async function main() {
@@ -20,6 +20,27 @@ async function main() {
                 target_kubejs_dir.style.color = "green";
             } else {
                 target_kubejs_dir.style.color = "red";
+            }
+        });
+        const kubejs_project_name = choose_kubejs_dir.querySelector("#kubejs_project_name");
+        const confirmButton = choose_kubejs_dir.querySelector("#confirm");
+        confirmButton.addEventListener("click", async () => {
+            const dir = choose_kubejs_dir.dataset.directory;
+            if (!dir) {
+                Logger.warn("未选择KubeJS目录");
+                Snackbar.builder({ type: "warning", text: "请选择KubeJS目录" });
+                return;
+            }
+            if (!kubejs_project_name.value) {
+                Logger.warn("请输入项目名");
+                Snackbar.builder({ type: "warning", text: "请输入项目名" });
+                return;
+            }
+            if (await checkIsKubeJSDir(dir)) {
+                Logger.info("添加项目成功");
+            } else {
+                Logger.warn("添加项目失败");
+                Snackbar.builder({ type: "error", text: "选择的目录不是KubeJS目录" });
             }
         });
         const dialog = Dialog.builder({ headline: '添加项目', view: choose_kubejs_dir });
