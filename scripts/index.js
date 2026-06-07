@@ -1,4 +1,4 @@
-const Logger = iftc.Logger;
+const { Logger } = iftc;
 const sober = globalThis.sober;
 const { Dialog } = sober;
 TemplateHTML.baseUrl = "file://" + iftc.__dirname + "/templates/";
@@ -18,5 +18,9 @@ async function main() {
         });
         const dialog = Dialog.builder({ headline: '添加项目', view: choose_kubejs_dir });
     });
+
+    function checkIsKubeJSDir(path) {
+        const dir = iftc.File(path);
+    }
 }
 main();
