@@ -42,6 +42,11 @@ async function main() {
                 try {
                     const projectsFile = iftc.File("projects.json");
                     const projects = JSON.parse(await projectsFile.readText());
+                    if (projects.some(p => p.path === dir)) {
+                        Logger.warn("项目已存在");
+                        Snackbar.builder({ type: "warning", text: "项目已存在" });
+                        return;
+                    }
                     projects.push({
                         name: kubejs_project_name.value,
                         path: dir,
@@ -54,7 +59,7 @@ async function main() {
                     setTimeout(() => {
                         dialog.remove();
                     }, 1000);
-                    const projects = await getProjectList();
+                    // const projects = await getProjectList();
                     renderProjectList(projects);
                 } catch (error) {
                     Logger.error("Error writing projects.json: " + error);
