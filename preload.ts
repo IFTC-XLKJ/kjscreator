@@ -48,6 +48,24 @@ contextBridge.exposeInMainWorld("iftc", {
                 Logger.info("readFile result: " + result.byteLength + " bytes");
                 return await new Blob([result]).text();
             },
+            write: async (data: Blob | string) => {
+                Logger.info("start writeFile");
+                try {
+                    let bufferToWrite: string | Uint8Array;
+                    if (data instanceof Blob) {
+                        const arrayBuffer = await data.arrayBuffer();
+                        bufferToWrite = new Uint8Array(arrayBuffer);
+                    } else {
+                        bufferToWrite = data;
+                    }
+                    await writeFile(obj.path, bufferToWrite);
+                    Logger.info("writeFile done");
+                    return true;
+                } catch (e) {
+                    Logger.error("writeFile error: " + e);
+                    return false;
+                }
+            },
             exists: async () => {
                 Logger.info("start checkFileExists");
                 let result: boolean;
