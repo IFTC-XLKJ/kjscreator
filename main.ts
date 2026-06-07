@@ -8,10 +8,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const __filename = fileURLToPath(import.meta.url);
 
 Logger.new();
-if (!fs.stat("projects.json").then(() => true).catch(() => false)) {
+if (
+    !fs
+        .stat("projects.json")
+        .then(() => true)
+        .catch(() => false)
+) {
     Logger.info("projects.json not found, creating a new one");
     await fs.writeFile("projects.json", JSON.stringify([], null, 2));
 }
+const editorWindows: Record<string, BrowserWindow> = {};
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 960,
@@ -33,6 +39,11 @@ function createMainWindow() {
         });
         return result.filePaths[0];
     });
+    ipcMain.handle("new-editor-window", () => {
+        const editorWindow = createEditorWindow();
+        editorWindows[String(editorWindow.id)] = editorWindow;
+        return editorWindow.id;
+    });
     return mainWindow;
 }
 
@@ -50,6 +61,7 @@ function createEditorWindow() {
     editorWindow.removeMenu();
     editorWindow.webContents.openDevTools();
     editorWindow.loadFile("editor.html");
+    return editorWindow;
 }
 
 let mainWindow: BrowserWindow | null = null;

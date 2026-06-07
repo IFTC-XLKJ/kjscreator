@@ -83,4 +83,7 @@ contextBridge.exposeInMainWorld("iftc", {
         };
         return obj;
     },
+    newEditorWindow: () => {
+        return ipcRenderer.invoke("new-editor-window");
+    },
 });

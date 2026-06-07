@@ -72,5 +72,21 @@ async function main() {
         }
         return true;
     }
+    async function getProjectList() {
+        const projectsFile = iftc.File("projects.json");
+        if (!await projectsFile.exists()) {
+            Logger.warn("projects.json not found, creating a new one");
+            await projectsFile.write(JSON.stringify([], null, 2));
+            return [];
+        }
+        try {
+            const projects = JSON.parse(await projectsFile.readText());
+            Logger.info("projects.json loaded");
+            return projects;
+        } catch (error) {
+            Logger.error("Error loading projects.json: " + error);
+            return [];
+        }
+    }
 }
 main();
