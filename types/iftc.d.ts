@@ -30,6 +30,12 @@ interface IftcFileInstance {
      * 检查文件是否存在
      */
     exists(): Promise<boolean>;
+
+    /**
+     * 列出目录下的文件和子目录
+     * @returns 文件和目录名称的数组
+     */
+    list(): Promise<string[]>;
 }
 
 // 定义 ChooseDirectoryOptions 接口
