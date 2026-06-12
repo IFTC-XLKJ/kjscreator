@@ -123,8 +123,8 @@ async function main() {
         for (const project of list) {
             const item = kubejs_project_item.cloneNode(true);
             item.querySelector(".project_name").textContent = project.name;
-            item.querySelector(".project_path").textContent = project.path;
-            item.querySelector(".project_uuid").textContent = project.uuid;
+            item.querySelector(".project_path").textContent = "项目路径: " + project.path;
+            item.querySelector(".project_uuid").textContent = "项目UUID: " + project.uuid;
             // item.querySelector(".project_delete").addEventListener("click", async () => {
             //     const projectsFile = iftc.File("projects.json");
             // })

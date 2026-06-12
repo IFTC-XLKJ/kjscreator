@@ -3,8 +3,9 @@ const toolbox = {
     kind: "flyoutToolbox",
     contents: [
         {
-            kind: "block",
-            type: "controls_if"
+            kind: "category",
+            name: "通用",
+            contents: [],
         },
     ]
 };

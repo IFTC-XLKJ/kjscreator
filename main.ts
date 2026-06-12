@@ -54,6 +54,13 @@ function createMainWindow() {
 }
 
 function createEditorWindow(project: Project) {
+    // 判断是否已经有一个编辑器窗口在编辑这个项目，如果有就聚焦它而不是创建新的窗口
+    for (const editorWindow of Object.values(editorWindows)) {
+        if (editorWindow.webContents.getURL().includes(project.uuid)) {
+            editorWindow.focus();
+            return editorWindow;
+        }
+    }
     const editorWindow = new BrowserWindow({
         width: 1920,
         height: 1080,

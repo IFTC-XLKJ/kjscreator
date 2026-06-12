@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KubeJS Creator</title>
     <link rel="stylesheet" href="styles/editor.css">
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-file-present" viewBox="0 -960 960 960">
+            <path
+                d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h360l200 200v520q0 33-23.5 56.5T720-80H240Zm0-80h480v-480H560v-160H240v640Zm240-40q67 0 113.5-47T640-360v-160h-80v160q0 33-23 56.5T480-280q-33 0-56.5-23.5T400-360v-220q0-9 6-14.5t14-5.5q9 0 14.5 5.5T440-580v220h80v-220q0-42-29-71t-71-29q-42 0-71 29t-29 71v220q0 66 47 113t113 47ZM240-800v160-160 640-640Z">
+            </path>
+        </symbol>
+        <symbol id="icon-javascript" viewBox="0 -960 960 960">
+            <path
+                d="M300-360q-25 0-42.5-17.5T240-420v-40h60v40h60v-180h60v180q0 25-17.5 42.5T360-360h-60Zm220 0q-17 0-28.5-11.5T480-400v-40h60v20h80v-40H520q-17 0-28.5-11.5T480-500v-60q0-17 11.5-28.5T520-600h120q17 0 28.5 11.5T680-560v40h-60v-20h-80v40h100q17 0 28.5 11.5T680-460v60q0 17-11.5 28.5T640-360H520Z">
+            </path>
+        </symbol>
+    </svg>
     <script src="scripts/sober.min.js"></script>
     <script src="scripts/blockly/blockly.min.js"></script>
     <script src="scripts/blockly/blockly_compressed.js"></script>
@@ -26,9 +38,13 @@
             <s-menu id="filestree" style="max-width: 280px; margin: 0">
                 <!-- <div slot="label">文件树</div> -->
                 <s-menu-item>
-                    <s-icon slot="start" name="favorite"></s-icon>
-                    选项4
-                    <s-menu slot="menu">
+                    <s-icon slot="start">
+                        <svg viewBox="0 0 24 24">
+                            <use href="#icon-file-present"></use>
+                        </svg>
+                    </s-icon>
+                    静态资源
+                    <s-menu slot="menu" id="assetsfilestree">
                         <s-menu-item> 选项1 </s-menu-item>
                         <s-menu-item> 选项2 </s-menu-item>
                     </s-menu>
@@ -50,9 +66,13 @@
                     </s-menu>
                 </s-menu-item>
                 <s-menu-item>
-                    <s-icon slot="start" name="favorite"></s-icon>
-                    选项4
-                    <s-menu slot="menu">
+                    <s-icon slot="start">
+                        <svg viewBox="0 0 24 24">
+                            <use href="#icon-javascript"></use>
+                        </svg>
+                    </s-icon>
+                    启动脚本
+                    <s-menu slot="menu" id="startupfilestree">
                         <s-menu-item> 选项1 </s-menu-item>
                         <s-menu-item> 选项2 </s-menu-item>
                     </s-menu>
