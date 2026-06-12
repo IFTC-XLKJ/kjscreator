@@ -26,9 +26,32 @@ const toolbox = {
                 },
                 {
                     kind: "block",
-                    type: "console"
+                    type: "console",
+                    inputs: {
+                        TEXT: {
+                            shadow: {
+                                type: "string",
+                                fields: {
+                                    TEXT: "Hello World"
+                                }
+                            }
+                        }
+                    },
                 },
             ],
+        },
+        {
+            kind: "category",
+            name: "运算",
+            contents: [
+                {
+                    kind: "block",
+                    type: "string",
+                    fields: {
+                        TEXT: "Hello"
+                    }
+                }
+            ]
         },
     ]
 };
