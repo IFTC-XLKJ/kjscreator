@@ -4,3 +4,35 @@ body {
     font-family: monospace;
     user-select: none;
 }
+
+#workspaces {
+    width: calc(100vw - 280px);
+    height: calc(100vh - 64px);
+}
+
+.workspace {
+    width: 100%;
+    height: 100%;
+    /* display: flex; */
+}
+
+#main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+}
+
+#list {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto ;
+}
+
+#filestree {
+    overflow-y: auto;
+    height: 100%;
+    max-height: calc(100vh - 64px - 8px);
+}
+
+#filestree::-webkit-scrollbar {
+    width: 0px;
+}

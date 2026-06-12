@@ -6,6 +6,7 @@ const path = params.get('path');
 console.log("Editor Window Params:", { uuid, name, path });
 
 const { Logger } = iftc;
+const workspaceEditors = {};
 
 Logger.info("Editor Window Started");
 const workspaceOptions = {
@@ -41,4 +42,25 @@ const workspaceOptions = {
     },
 };
 // 初始化Blockly
-const workspace = Blockly.inject('blocklyDiv', workspaceOptions);
+// const workspace = Blockly.inject('blocklyDiv', workspaceOptions);
+
+function newEditor() {
+    if (!workspaces) {
+        Logger.error("Workspaces container not found!");
+        return;
+    }
+
+    const workspaceDiv = document.createElement('div');
+    workspaces.appendChild(workspaceDiv);
+    workspaceDiv.className = 'workspace';
+    // workspaceDiv.style.width = '100vw';
+    // workspaceDiv.style.height = 'calc(100vh - 64px)';
+    const uuid = iftc.uuidv4();
+    workspaceDiv.id = `workspace_${uuid}`;
+    const workspace = Blockly.inject(`workspace_${uuid}`, workspaceOptions);
+    workspaceEditors[uuid] = workspace;
+    Logger.info(`New Editor Created: ${uuid}`);
+    return { uuid, workspace };
+}
+
+newEditor();
