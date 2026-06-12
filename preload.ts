@@ -3,7 +3,7 @@ import Logger from "./logger.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 // 修复点：删除错误的 import { fs } from "fs/promises";
-import { readFile, writeFile, stat } from "fs/promises";
+import { readFile, writeFile, stat, readdir } from "fs/promises";
 // import * as fs from "fs";
 import os from "os";
 import { v4 as uuidv4 } from "uuid";
@@ -79,6 +79,20 @@ contextBridge.exposeInMainWorld("iftc", {
                 }
                 Logger.info("checkFileExists done");
                 Logger.info("checkFileExists result: " + result);
+                return result;
+            },
+            list: async () => {
+                Logger.info("start listFiles");
+                let result: string[];
+                try {
+                    const files = await readdir(obj.path);
+                    result = files.map((f: string) => f.replace(/\\/g, "/"));
+                } catch (e) {
+                    Logger.error("listFiles error: " + e);
+                    result = [];
+                }
+                Logger.info("listFiles done");
+                Logger.info("listFiles result: " + JSON.stringify(result));
                 return result;
             },
         };

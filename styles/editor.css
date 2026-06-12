@@ -19,18 +19,19 @@ body {
 #main {
     display: grid;
     grid-template-columns: 280px 1fr;
+    height: calc(100vh - 64px);
 }
 
 #list {
     height: 100%;
     display: grid;
-    grid-template-rows: auto ;
+    grid-template-rows: 32px 1fr;
 }
 
 #filestree {
     overflow-y: auto;
-    height: 100%;
-    max-height: calc(100vh - 64px - 8px);
+    /* height: calc(100% - 8px); */
+    max-height: calc(100vh - 64px - 40px);
 }
 
 #filestree::-webkit-scrollbar {
