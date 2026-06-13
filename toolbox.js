@@ -38,6 +38,12 @@ const toolbox = {
                         }
                     },
                 },
+                {
+                    kind: "block",
+                    type: "function_anonymous",
+                    inputs: {
+                    }
+                },
             ],
         },
         {

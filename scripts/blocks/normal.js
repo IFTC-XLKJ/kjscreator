@@ -55,28 +55,32 @@ Blockly.defineBlocksWithJsonArray([
         tooltip: "输出日志到控制台",
         helpUrl: ""
     },
-    // {
-    //     type: "variable_declaration",
-    //     message0: "声明变量 %1 = %2",
-    //     args0: [
-    //         {
-    //             // 【修复】补充完整的字段定义
-    //             type: "field_input",
-    //             name: "VAR_NAME",
-    //             text: "myVar"
-    //         },
-    //         {
-    //             type: "input_value",
-    //             name: "VALUE",
-    //             check: null
-    //         }
-    //     ],
-    //     previousStatement: null,
-    //     nextStatement: null,
-    //     colour: "#68CDFF",
-    //     tooltip: "声明一个变量",
-    //     helpUrl: ""
-    // }
+    {
+        type: "function_anonymous",
+        message0: "匿名函数 %1 %2 %3 返回 %4",
+        args0: [
+            {
+                type: "input_value",
+                name: "PARAMS",
+                check: "Array"
+            },
+            {
+                type: "input_dummy"
+            },
+            {
+                type: "input_statement",
+                name: "STACK"
+            },
+            {
+                type: "input_value",
+                name: "RETURN"
+            }
+        ],
+        output: "function",
+        colour: "#68CDFF",
+        tooltip: "定义一个匿名函数",
+        helpUrl: ""
+    },
 ]);
 
 Blockly.JavaScript.forBlock["inline_comment"] = function (block) {
@@ -95,3 +99,10 @@ Blockly.JavaScript.forBlock["console"] = function (block) {
     var value = Blockly.JavaScript.valueToCode(block, "TEXT", Blockly.JavaScript.ORDER_ATOMIC) || "''";
     return `console.${type}(${value});\n`;
 };
+
+Blockly.JavaScript.forBlock["function_anonymous"] = function (block) {
+    var params = Blockly.JavaScript.valueToCode(block, "PARAMS", Blockly.JavaScript.ORDER_ATOMIC) || "[]";
+    var stack = Blockly.JavaScript.statementToCode(block, "STACK");
+    var return_value = Blockly.JavaScript.valueToCode(block, "RETURN", Blockly.JavaScript.ORDER_ATOMIC) || "''";
+    return `function(${params}) {\n${stack}\nreturn ${return_value};\n}`;
+}

@@ -42,15 +42,50 @@ const workspaceOptions = {
     },
 };
 
-function newEditor(file) {
+/**
+ * 新建编辑器
+ * @param {string} file 
+ * @param {string} type 
+ * @returns {Record<{uuid: string, workspace: Blockly.WorkspaceSvg, workspaceDiv: HTMLDivElement}>}
+ */
+function newEditor(file, type) {
     if (!workspaces) {
         Logger.error("Workspaces container not found!");
         return;
     }
+    let newToolbox = Object.assign({}, toolbox);
+    if (type === 'startup') {
+        newToolbox.contents.push({
+            kind: 'category',
+            name: '启动',
+            contents: [
+                {
+                    kind: 'block',
+                    type: 'StartupEvents_registry',
+                    inputs: {
+                        FUNCTION: {
+                            block: {
+                                type: "function_anonymous",
+                                inputs: {
+                                    RETURN: {
+                                        shadow: {
+                                            type: 'null',
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            ],
+        });
+    }
     const workspaceDiv = document.createElement('div');
     workspaces.appendChild(workspaceDiv);
     workspaceDiv.className = 'workspace';
+    workspaceDiv.dataset.file = file;
     const uuid = iftc.uuidv4();
+    workspaceDiv.dataset.uuid = uuid;
     workspaceDiv.id = `workspace_${uuid}`;
     const workspace = Blockly.inject(`workspace_${uuid}`, workspaceOptions);
     workspaceEditors[uuid] = {
@@ -70,7 +105,7 @@ async function renderFilesTree() {
             const fileDiv = document.createElement('s-menu-item');
             fileDiv.innerText = file.split('.').slice(0, -1).join('.');
             fileDiv.setAttribute('label', file);
-            const editor = newEditor(file);
+            const editor = newEditor(file, 'startup');
             fileDiv.addEventListener('click', () => {
                 const uuids = Object.keys(workspaceEditors);
                 for (const uuid of uuids) {
@@ -89,4 +124,3 @@ async function renderFilesTree() {
 }
 
 renderFilesTree();
-// newEditor();
